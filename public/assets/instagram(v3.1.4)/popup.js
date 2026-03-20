@@ -1,0 +1,2 @@
+(()=>{var e=window.location.pathname;e.split(/[/?#]/)[3],e.replace(/[+]/g," "),chrome.runtime.getURL("/images/leadstal.gif"),chrome.runtime.getURL("/images/play.svg"),chrome.runtime.getURL("/images/stop.svg"),chrome.runtime.getURL("/images/pause.svg"),chrome.runtime.getURL("/images/fav.icon"),new Object,new Array})();
+//# sourceMappingURL=popup.js.map

@@ -1,0 +1,44 @@
+{
+    "update_url": "https://clients2.google.com/service/update2/crx",
+
+    "name": "IG Scraper & IG Email Finder | LeadStal",
+    "version": "3.1.4",
+    "description": "#1 IG Scraper & IG Email Finder by LeadStal.com",
+    "default_locale": "en",
+    "author": "LeadStal",
+    "host_permissions": ["*://*.instagram.com/*", "*://*.echobot.dev/*"],
+    "background": {
+        "service_worker": "service-worker.js"
+    },
+    "action": {
+        "default_title": "IG Leads Generator",
+        "default_icons": {
+            "16": "images/logo32.png",
+            "32": "images/logo32.png",
+            "48": "images/logo48.png",
+            "128": "images/logo128.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*.instagram.com/*"],
+            "js": ["assets/jquery.min.js", "content-script.js", "main.js"],
+            "css": ["leadstal.css"],
+            "run_at": "document_end",
+            "resources": ["images/*"]
+        }
+    ],
+    "icons": {
+        "16": "images/logo32.png",
+        "32": "images/logo32.png",
+        "48": "images/logo48.png",
+        "128": "images/logo128.png"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["images/*", "injected.js"],
+            "matches": ["*://*.instagram.com/*"]
+        }
+    ],
+    "manifest_version": 3
+}
