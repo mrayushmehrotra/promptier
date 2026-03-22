@@ -35,7 +35,7 @@ export default function Navbar() {
     return (
         <nav className="bg-gray-200 border border-b-black flex items-center justify-between p-8">
             <div className="flex relative flex-col">
-                <div className="bg-red-400 absolute top-0 left-0 w-[100px] h-[20px]" >
+                <div className="bg-black absolute top-0 left-0 w-[100px] h-[20px]" >
 
                 </div>
                 <motion.h1
@@ -56,7 +56,7 @@ export default function Navbar() {
             <div className="flex items-center gap-8">
                 <Link
                     href="/signup"
-                    className="px-6 py-2  text-black rounded-full font-medium hover:bg-gray-800 transition-colors"
+                    className="px-6 py-2  text-black rounded-full font-medium transition-colors"
                 >
                     Let&apos;s go
                 </Link>
