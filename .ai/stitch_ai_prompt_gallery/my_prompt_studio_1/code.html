@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prompt Studio | User Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#525252",
+                        "surface-container-high": "#e0e0e0",
+                        "error": "#da1e28",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "outline-variant": "#e0e0e0",
+                        "tertiary-fixed": "#a7f0ba",
+                        "surface": "#ffffff",
+                        "on-tertiary-fixed-variant": "#044317",
+                        "on-secondary-fixed": "#161616",
+                        "on-surface-variant": "#525252",
+                        "secondary-container": "#e0e0e0",
+                        "on-secondary-fixed-variant": "#525252",
+                        "error-container": "#fff1f1",
+                        "surface-container-low": "#f4f4f4",
+                        "surface-container": "#f4f4f4",
+                        "secondary": "#6f6f6f",
+                        "surface-variant": "#f4f4f4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#0f62fe",
+                        "outline": "#8d8d8d",
+                        "on-tertiary-fixed": "#022d0d",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#78a9ff",
+                        "inverse-on-surface": "#f4f4f4",
+                        "tertiary-fixed-dim": "#42be65",
+                        "tertiary-container": "#a7f0ba",
+                        "on-error-container": "#750e13",
+                        "tertiary": "#198038",
+                        "surface-tint": "#0f62fe",
+                        "primary-fixed": "#d0e2ff",
+                        "on-tertiary-container": "#044317",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001d6c",
+                        "background": "#ffffff",
+                        "surface-dim": "#e0e0e0",
+                        "primary-container": "#d0e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#0043ce",
+                        "on-background": "#161616",
+                        "inverse-primary": "#78a9ff",
+                        "surface-container-highest": "#c6c6c6",
+                        "on-surface": "#161616",
+                        "surface-bright": "#ffffff",
+                        "secondary-fixed": "#e0e0e0",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#161616",
+                        "inverse-surface": "#393939"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "body": ["IBM Plex Sans"],
+                        "label": ["IBM Plex Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-white text-on-background antialiased">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-gray-950 flex justify-between items-center w-full px-4 h-12 fixed top-0 z-50 border-b border-gray-200 dark:border-gray-800 font-['IBM_Plex_Sans'] text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-xl font-semibold text-gray-900 dark:text-white">Prompt Studio</span>
+<nav class="hidden md:flex gap-6 items-center h-full">
+<a class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors" href="#">Gallery</a>
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1 h-full flex items-center" href="#">Collections</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-2 top-1.5 text-gray-400 text-lg">search</span>
+<input class="bg-surface-container-low border-none focus:ring-1 focus:ring-primary h-8 pl-8 pr-4 text-xs w-64" placeholder="Search prompts..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 p-1.5 transition-colors">notifications</button>
+<button class="material-symbols-outlined text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 p-1.5 transition-colors">settings</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-gray-200" data-alt="Close up portrait of a professional man with short dark hair and a friendly expression in clean office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaKtQJVF-V0ec1bjqWZeKmwkW29dwOxW0gx7KRkEA31ZTNPFgCYba-34WO622j8B-1455X1tSx7MxlMDDaOLi-4qkvAFtk2ksbBMGm8LpkKrAC0ZfZlDQMlpsli7XW-diPAPGgaEnE-l7269lh3M19YUHOt-OD8OfQzl36Jr3RVuf9M7DzNDT5Ufk7w38vvo_RL--U2eKzxECyM4DePZhBoIn6hsbObisd1YJdoeE7P-zIceWetOEDg06R216XFNn8uFBp0DONetE"/>
+</div>
+</header>
+<div class="flex pt-12 min-h-screen">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-[calc(100vh-3rem)] w-64 fixed left-0 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 py-4 font-['IBM_Plex_Sans'] text-xs font-medium">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-bold text-gray-900 dark:text-white leading-tight">Prompt Community</h2>
+<p class="text-[10px] text-secondary opacity-70">Carbon v2.4</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined">explore</span>
+                    Explore
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 Active:scale-[0.99] duration-75" href="#">
+<span class="material-symbols-outlined">person</span>
+                    My Profile
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined">bookmarks</span>
+                    Saved
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined">history</span>
+                    History
+                </a>
+</nav>
+<div class="px-6 pt-4 border-t border-gray-200 dark:border-gray-800">
+<button class="w-full bg-primary text-white py-3 font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors">
+<span class="material-symbols-outlined text-sm">upload</span>
+                    Upload New
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-8 bg-white">
+<!-- User Profile Header -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-outline-variant">
+<div class="flex items-start gap-6">
+<div class="relative group">
+<img alt="User avatar large" class="w-24 h-24 lg:w-32 lg:h-32 object-cover border-4 border-surface shadow-sm" data-alt="Professional portrait of a creative director in a high-key studio setting with neutral gray background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVnzoZqIpdPHV7VCPdkzf2wxv63z8eNcZdY1xV-2U_jW63p435adNd27i-W9zOGX5mDitW8YZ78Zla670kC2VKcxsAy-Hcy_phTpYsA8Vc63qp39HgzwnD06GkzTsti1qmlkh91YxGIJGKVE7FyNDMIVGvUE4UDbayi7MewSOhhs0tKIfSB6lO7VGIEEx6H86NLTqxxSTAmnfAyywCasMTB5r7Pyr73XOJx2SyaTNrt7qCCZv2sQ-v5fPZRscwpiDijUmxlDHEWOY"/>
+<button class="absolute bottom-0 right-0 bg-primary text-white p-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="pt-2">
+<h1 class="text-3xl font-semibold tracking-tight text-on-surface mb-1">Alex Chen</h1>
+<p class="text-secondary mb-4 max-w-xl text-sm leading-relaxed">
+                                Lead Prompt Creator specializing in high-fidelity architectural visualizations and performance-optimized LLM workflows.
+                            </p>
+<div class="flex items-center gap-6">
+<div>
+<span class="block text-2xl font-bold text-on-surface">1,482</span>
+<span class="text-xs uppercase tracking-wider text-secondary font-semibold">My Submissions</span>
+</div>
+<div>
+<span class="block text-2xl font-bold text-on-surface">24.5k</span>
+<span class="text-xs uppercase tracking-wider text-secondary font-semibold">Total Votes Received</span>
+</div>
+<div class="pl-6 border-l border-outline-variant">
+<span class="block text-2xl font-bold text-primary">Top 12</span>
+<span class="text-xs uppercase tracking-wider text-secondary font-semibold">Monthly Rank</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-primary text-primary font-semibold text-sm hover:bg-primary-container transition-colors">Share Profile</button>
+<button class="px-4 py-2 bg-primary text-white font-semibold text-sm hover:bg-blue-700 transition-colors">Edit Profile</button>
+</div>
+</div>
+</section>
+<!-- Tabs Interface -->
+<section>
+<div class="flex border-b border-outline-variant mb-8 overflow-x-auto scrollbar-hide">
+<button class="px-6 py-3 border-b-2 border-primary text-primary font-semibold text-sm whitespace-nowrap">My Submissions</button>
+<button class="px-6 py-3 border-b-2 border-transparent text-secondary hover:text-on-surface font-medium text-sm whitespace-nowrap transition-colors">Saved Prompts</button>
+<button class="px-6 py-3 border-b-2 border-transparent text-secondary hover:text-on-surface font-medium text-sm whitespace-nowrap transition-colors">Collections</button>
+</div>
+<!-- Content Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1">
+<!-- Featured Large Card -->
+<div class="md:col-span-2 md:row-span-2 bg-surface-container group relative overflow-hidden h-[400px]">
+<img alt="Abstract AI Art" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Abstract fluid art with flowing iridescent colors of deep blue, violet and silver with a futuristic glossy texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-hQ6k-AUJ6Vr1d-bTjGRWjjnqoNKXi_FFRNANk_mZhMSwZdbOGjyjZK9e5sEtFsDAOcs0qPmXCfCq8IeOi4NnAwoo-gG9udzitSYCapokUq_m5n9sqpl-XXMWWwPsRYTdKgvlQOfMTfZBgumDA4d-uiSVnuAQYjFRpHU6qheHXUafuq1kA1QQxa7uK9uNhngSgRxW8h9xF-L6yyMauOOx936dzqDEyXTh-brAAe9puA_oW6J-aZeXhxKuONA0K9OyziD6Z8Ci7Gs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end">
+<span class="text-[10px] font-bold text-white uppercase tracking-widest mb-2 bg-primary self-start px-2 py-0.5">Top Submission</span>
+<h3 class="text-2xl font-bold text-white mb-2">Cybernetic Etherealism v2</h3>
+<p class="text-gray-300 text-sm line-clamp-2 mb-4">A complex multi-stage prompt for generating architectural visualizations with bioluminescent flora integration.</p>
+<div class="flex items-center gap-4 text-white text-xs">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">visibility</span> 12.4k</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">thumb_up</span> 1.2k</span>
+</div>
+</div>
+</div>
+<!-- Regular Cards -->
+<div class="bg-surface-container p-4 flex flex-col justify-between hover:bg-surface-container-high transition-colors min-h-[196px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">terminal</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Logic</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Code Refactor Pro</h4>
+<p class="text-xs text-secondary line-clamp-3">Clean up messy Javascript codebases with focus on SOLID principles and performance optimization.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant mt-4">
+<span class="text-[10px] text-secondary">2 days ago</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">more_horiz</button>
+</div>
+</div>
+<div class="bg-surface-container p-4 flex flex-col justify-between hover:bg-surface-container-high transition-colors min-h-[196px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">image</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Visual</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Neon Noir Portraits</h4>
+<p class="text-xs text-secondary line-clamp-3">Cinematic lighting, high contrast, 35mm film grain, 80s aesthetics with modern clarity.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant mt-4">
+<span class="text-[10px] text-secondary">5 days ago</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">more_horiz</button>
+</div>
+</div>
+<div class="bg-surface-container p-4 flex flex-col justify-between hover:bg-surface-container-high transition-colors min-h-[196px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">movie</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Video</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Drone Flyover City</h4>
+<p class="text-xs text-secondary line-clamp-3">Smooth cinematic drone shots over futuristic urban environments at sunset.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant mt-4">
+<span class="text-[10px] text-secondary">1 week ago</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">more_horiz</button>
+</div>
+</div>
+<div class="bg-surface-container p-4 flex flex-col justify-between hover:bg-surface-container-high transition-colors min-h-[196px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Design</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Minimalist Vector Icons</h4>
+<p class="text-xs text-secondary line-clamp-3">Consistent icon set generation for enterprise SaaS dashboards with flat design style.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant mt-4">
+<span class="text-[10px] text-secondary">2 weeks ago</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">more_horiz</button>
+</div>
+</div>
+<!-- Secondary Featured Card -->
+<div class="md:col-span-2 bg-surface-container group relative overflow-hidden h-[196px]">
+<div class="flex h-full">
+<div class="w-1/3 h-full overflow-hidden">
+<img alt="Gradient Abstract" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Smooth mesh gradient flowing from deep teal to soft mint with subtle grainy texture and soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5-ISeI1kE_heCWSGN0SH6IsmiKc5gZam5pdU92c84FfX7OZsgpd3tCY1WF4eukCTTzjmtOiuUv-7Wr9l8KnKUnuW1R5WU6tplJ-Pr3t4KMce6ET68l5zFQ26QvUeekkXRwPqkIrPAWxsoufiJXkbNyKha5k00nhhYebwHNcYdAPUUorApZD06nbG2euaksiUbZXlrZuP5XWbSDxCAUaR0BDxoGpssLRcMEQObSHucYym5yNlmrnWna06zaE8kcuvXej4Tf3kQ15k"/>
+</div>
+<div class="w-2/3 p-6 flex flex-col justify-center">
+<h4 class="text-lg font-bold text-on-surface mb-2">Branding Kit Template</h4>
+<p class="text-xs text-secondary mb-4 leading-relaxed">A comprehensive framework for consistent color palettes and typography suggestions.</p>
+<div class="flex gap-4">
+<button class="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">View Details <span class="material-symbols-outlined text-xs">arrow_forward</span></button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-4 flex flex-col justify-between hover:bg-surface-container-high transition-colors min-h-[196px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">description</span>
+<span class="text-[10px] font-bold text-secondary uppercase">General</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Document Summarizer</h4>
+<p class="text-xs text-secondary line-clamp-3">Distill complex materials into simple, actionable bullet points without losing key nuances.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant mt-4">
+<span class="text-[10px] text-secondary">3 weeks ago</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">more_horiz</button>
+</div>
+</div>
+<div class="bg-surface-container p-4 flex flex-col justify-between hover:bg-surface-container-high transition-colors min-h-[196px]">
+<div>
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary">analytics</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Data</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Python Data Analytics</h4>
+<p class="text-xs text-secondary line-clamp-3">Automate exploratory data analysis and generate visualization code with Pandas and Seaborn.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant mt-4">
+<span class="text-[10px] text-secondary">1 month ago</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">more_horiz</button>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-12 flex justify-center">
+<button class="px-8 py-3 bg-white border border-outline text-on-surface font-semibold text-sm hover:bg-surface-container-low transition-colors">
+                        Load More Submissions
+                    </button>
+</div>
+</section>
+</main>
+</div>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 z-50 flex items-center justify-around h-16 px-4">
+<button class="flex flex-col items-center gap-1 text-secondary">
+<span class="material-symbols-outlined">explore</span>
+<span class="text-[10px]">Explore</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">upload</span>
+<span class="text-[10px]">Upload</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary">
+<span class="material-symbols-outlined">bookmarks</span>
+<span class="text-[10px]">Saved</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prompt Studio - Image Detail View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#525252",
+                        "surface-container-high": "#e0e0e0",
+                        "error": "#da1e28",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "outline-variant": "#e0e0e0",
+                        "tertiary-fixed": "#a7f0ba",
+                        "surface": "#ffffff",
+                        "on-tertiary-fixed-variant": "#044317",
+                        "on-secondary-fixed": "#161616",
+                        "on-surface-variant": "#525252",
+                        "secondary-container": "#e0e0e0",
+                        "on-secondary-fixed-variant": "#525252",
+                        "error-container": "#fff1f1",
+                        "surface-container-low": "#f4f4f4",
+                        "surface-container": "#f4f4f4",
+                        "secondary": "#6f6f6f",
+                        "surface-variant": "#f4f4f4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#0f62fe",
+                        "outline": "#8d8d8d",
+                        "on-tertiary-fixed": "#022d0d",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#78a9ff",
+                        "inverse-on-surface": "#f4f4f4",
+                        "tertiary-fixed-dim": "#42be65",
+                        "tertiary-container": "#a7f0ba",
+                        "on-error-container": "#750e13",
+                        "tertiary": "#198038",
+                        "surface-tint": "#0f62fe",
+                        "primary-fixed": "#d0e2ff",
+                        "on-tertiary-container": "#044317",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001d6c",
+                        "background": "#ffffff",
+                        "surface-dim": "#e0e0e0",
+                        "primary-container": "#d0e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#0043ce",
+                        "on-background": "#161616",
+                        "inverse-primary": "#78a9ff",
+                        "surface-container-highest": "#c6c6c6",
+                        "on-surface": "#161616",
+                        "surface-bright": "#ffffff",
+                        "secondary-fixed": "#e0e0e0",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#161616",
+                        "inverse-surface": "#393939"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "body": ["IBM Plex Sans"],
+                        "label": ["IBM Plex Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f4f4f4; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #8d8d8d; }
+    </style>
+</head>
+<body class="bg-white text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-gray-950 font-['IBM_Plex_Sans'] text-sm tracking-tight border-b border-gray-200 dark:border-gray-800 flex justify-between items-center w-full px-4 h-12 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-xl font-semibold text-gray-900 dark:text-white">Prompt Studio</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1" href="#">Gallery</a>
+<a class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors" href="#">Editor</a>
+<a class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors" href="#">Collections</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 border-b border-outline">
+<span class="material-symbols-outlined text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none text-xs focus:ring-0 p-0 w-48" placeholder="Search prompts..." type="text"/>
+</div>
+<button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkibTGXu-s9m9fO5Deupe5kYQUaMEYxDJrPUUxmg-xp7s22bmQTJHzlHcRz-EXMvnsmuElX3CZVy4GrVf2zImnes8Q1N2-CUpJJAWbyD-8ZazVRPF70VIUfJfpatB1KsQtscDfrDboGaqN31a22hCz7HHsTuHDEL2QQipKvA6HoA9OxIeUpZZaahm3yYmzauk8sYZg6b5INV5bh0-LngUrVw8ILPtbiNmULQCHtXiULCo43-X9yVXeWEO5S9eCMSYlOAEbudTyBuM"/>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-gray-50 dark:bg-gray-900 font-['IBM_Plex_Sans'] text-xs font-medium h-screen w-64 border-r border-gray-200 dark:border-gray-800 hidden lg:flex flex-col py-4 shrink-0">
+<div class="px-4 mb-8">
+<h2 class="text-lg font-bold text-gray-900 dark:text-white">AI Prompt Engine</h2>
+<p class="text-[10px] text-secondary">Carbon v2.4</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 transition-all scale-[0.99]" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span>Explore</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span>Studio</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="bookmarks">bookmarks</span>
+<span>Saved</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>History</span>
+</a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-white py-3 font-semibold flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Create New
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto custom-scrollbar bg-white">
+<div class="max-w-[1440px] mx-auto p-8">
+<!-- Back Button / Context -->
+<div class="mb-6 flex items-center gap-2 text-secondary">
+<button class="hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+<span class="text-xs uppercase tracking-wider font-semibold">Back to Gallery</span>
+</button>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+<!-- Left: Image Section -->
+<div class="xl:col-span-8 flex flex-col gap-6">
+<div class="bg-surface-container-low p-2">
+<img alt="Main AI Generation" class="w-full h-auto object-cover border border-outline-variant shadow-sm" data-alt="abstract 3d render of flowing translucent silk structures in deep blue and iridescent chrome, cinematic lighting, ultra-detailed textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuv81nKVRTT16bvQdOXU-Ui_3mRxeuAj--rQ3zCW4UX1BPCrbh3KZcd7AN5y_gKSyCZHdgy243JRFKGOhIiMX2K3sq8rPapLxtXbFCNzx8H1bKlXSCae9MJmuwwkZMOFvtfsVpH2b5EYwFQOpymhiGJBHXFBT6F3H7bdaIgtGNWKiZAKj9oxnbegu8CxysXjVynmPaya3qJ1UClU9wjEZ-ObLQR-UVWnKF2O5dlPDnDZc6d03XvD4Otb9d_UXrJ81R_MooZ2Lt2LA"/>
+</div>
+<!-- Actions Bar (Directly below image) -->
+<div class="flex items-center justify-between py-4 border-b border-outline-variant">
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span>
+                                    Remix
+                                </button>
+<button class="flex items-center gap-2 px-6 py-3 border border-primary text-primary font-medium hover:bg-primary-fixed transition-all">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                                    Download
+                                </button>
+</div>
+<div class="flex gap-2">
+<button class="p-3 text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+</button>
+<button class="p-3 text-secondary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Similar Prompts Section (Below Image) -->
+<div class="mt-8">
+<h3 class="text-xl font-semibold mb-6">Similar Prompts</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-low group cursor-pointer border border-transparent hover:border-primary transition-all">
+<img alt="Similar visual 1" class="w-full aspect-square object-cover" data-alt="liquid metal mercury flow with purple neon reflections, close up, highly realistic 3d visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBriEx276T3eRrNpubPlCz7nwV8PF1g90voF0ZdJrldc2rqu3DiAmS4pSi5MgsyXu1wOtoaO81f8SURczr67WbcLIx2fjk7P_YkbgFkt955dgjl1VRTG52bx2EUJVzItkc1Ni--Ingu-3nYOS2rzKMbRKAE7HTvL66jkXPz_4ltAL4JiRumWjJR7GzjD9i5guAvdPvOuFzCaGYGQB6h-WLlquulrx_ir_S1-xIaxboz-EGkg5qCpRFwwKLERq7Bc5clVM8dUYhEnRc"/>
+<div class="p-3">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-widest">Liquid Metal v2</p>
+</div>
+</div>
+<div class="bg-surface-container-low group cursor-pointer border border-transparent hover:border-primary transition-all">
+<img alt="Similar visual 2" class="w-full aspect-square object-cover" data-alt="ethereal gossamer wings of a futuristic cybernetic butterfly, intricate geometric patterns, bioluminescent glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDtf0n6dfTPIhPO9CCVED50ICbDztsWVZdU41J7n8fHMwjPVnMsMli8m-AwTwpvJAEuvHrhZt_1ASLC0l_v4rfTuThgGdCYFt9Cw6rxWn7Lt6USN1UCupL02AVdIuVUEmbm2kYfLJIScfcjbqRaZoBbToed8oOztd0_WnL53ItP6GgMxCVM4b6uElSXfQj2STyczSs4lgom9ZNX3PJEEDNToSt4aa2PWgvlPwMi5Jo-b5gaiMMMv57DRrf6GlLTwgeAF8eWNDL9Jk"/>
+<div class="p-3">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-widest">Biolume Gossamer</p>
+</div>
+</div>
+<div class="bg-surface-container-low group cursor-pointer border border-transparent hover:border-primary transition-all">
+<img alt="Similar visual 3" class="w-full aspect-square object-cover" data-alt="abstract flowing waves of sand in vibrant blue and orange hues, studio lighting, macro photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATu24O4nYe7fN1BgyLKjxowJKT5RSg1XnplwZrVMniZ31BQbatVJv92xRN4k243Q8HGmi6anWhBXEpKyvKg8Y28-MXwWMfFNraG0ogjBFVsY_Gauf3dna6KkmXERHrnvOdmSBIgY03jrXOOYNlCZrseWvNkokVnaQbwof3RWJTfwn7GGn587_0SNFxPBueYyBAbzwtg4HVbaMU_66EMBfgKzLETh0Hvm3AbBf01bAYH3CV0mhZHcds3Md194VpfoVOFnlEyZPLFUU"/>
+<div class="p-3">
+<p class="text-[10px] text-secondary uppercase font-bold tracking-widest">Dune Gradient</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Panel Section -->
+<div class="xl:col-span-4 flex flex-col gap-8">
+<!-- Creator Profile -->
+<div class="bg-surface-container p-6">
+<div class="flex items-center gap-4 mb-4">
+<img alt="Creator Profile" class="w-12 h-12 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkt_spe97Mvueaf3zeueaveR2x77oOVO9zisQSuYXzBqFtcqAHZHp7f3PGSmAkAc0pPUYpzs4PGmKTl_AAEKenwCAJdxyDwQ0V_ov1-nvCRlCHUxM5mcOJInB1oK-uVO19ulk94SGED3MZ1MzlfdFbYKihjqIpqHum0LCZ915nIlYX3oJs0yomS7VWOlByImH3G7yNaDWX1iUJy8Q-WKUAlosM6cKmdEWr2XqchczKHzrdR__L0sP8BqW-ATgT6HJNNt-aiIB5EHs"/>
+<div>
+<h4 class="text-base font-semibold">ExMachina_Designs</h4>
+<p class="text-xs text-secondary">Verified Creator • 12.4k followers</p>
+</div>
+<button class="ml-auto px-4 py-1.5 border border-primary text-primary text-xs font-bold hover:bg-primary-fixed transition-colors">FOLLOW</button>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-outline-variant">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="text-xs font-bold">1,204</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="visibility">visibility</span>
+<span class="text-xs font-bold">45.8k</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="forum">forum</span>
+<span class="text-xs font-bold">28</span>
+</div>
+</div>
+</div>
+<!-- Prompt Details -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-secondary">Original Prompt</h3>
+<div class="bg-on-background text-surface p-5 font-mono text-sm leading-relaxed relative group">
+<p>abstract 3d render of flowing translucent silk structures in deep blue and iridescent chrome, cinematic lighting, ultra-detailed textures, unreal engine 5 render, 8k resolution, volumetric fog, octane render style --ar 16:9 --v 6.0 --stylize 250</p>
+<button class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-surface/10 hover:bg-surface/20 p-2 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Generation Parameters -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<p class="text-[10px] text-secondary uppercase font-bold mb-1">Model</p>
+<p class="text-sm font-semibold">Midjourney v6.0</p>
+</div>
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<p class="text-[10px] text-secondary uppercase font-bold mb-1">Aspect Ratio</p>
+<p class="text-sm font-semibold">16:9</p>
+</div>
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<p class="text-[10px] text-secondary uppercase font-bold mb-1">Seed</p>
+<p class="text-sm font-semibold">2849102394</p>
+</div>
+<div class="bg-surface-container-low p-4 border-b border-outline-variant">
+<p class="text-[10px] text-secondary uppercase font-bold mb-1">Sampling</p>
+<p class="text-sm font-semibold">Euler a (30)</p>
+</div>
+</div>
+<!-- Tags / Metadata -->
+<div>
+<h3 class="text-xs font-bold uppercase tracking-[0.2em] text-secondary mb-4">Metadata</h3>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container px-3 py-1 text-xs text-on-surface border border-outline-variant">Abstract</span>
+<span class="bg-surface-container px-3 py-1 text-xs text-on-surface border border-outline-variant">3D Render</span>
+<span class="bg-surface-container px-3 py-1 text-xs text-on-surface border border-outline-variant">Unreal Engine 5</span>
+<span class="bg-surface-container px-3 py-1 text-xs text-on-surface border border-outline-variant">Cinematic</span>
+<span class="bg-surface-container px-3 py-1 text-xs text-on-surface border border-outline-variant">Chrome</span>
+</div>
+</div>
+<!-- Info Footer -->
+<div class="mt-4 p-4 border border-outline-variant bg-surface-container-lowest text-xs text-secondary leading-normal">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+<p>This image was generated on October 24, 2023. Commercial use is permitted under the Professional Plan license.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

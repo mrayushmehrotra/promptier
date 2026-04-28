@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#0f62fe",
+                        "tertiary-container": "#a7f0ba",
+                        "on-primary-fixed": "#001d6c",
+                        "background": "#ffffff",
+                        "secondary-container": "#e0e0e0",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#8d8d8d",
+                        "on-error-container": "#750e13",
+                        "inverse-primary": "#78a9ff",
+                        "surface-container-highest": "#c6c6c6",
+                        "surface-container": "#f4f4f4",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#0043ce",
+                        "primary-fixed": "#d0e2ff",
+                        "outline-variant": "#e0e0e0",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "on-background": "#161616",
+                        "tertiary-fixed-dim": "#42be65",
+                        "surface-variant": "#f4f4f4",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#525252",
+                        "secondary": "#6f6f6f",
+                        "inverse-surface": "#393939",
+                        "error-container": "#fff1f1",
+                        "surface": "#ffffff",
+                        "on-tertiary-fixed": "#022d0d",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#198038",
+                        "on-surface-variant": "#525252",
+                        "on-secondary-fixed": "#161616",
+                        "on-tertiary-container": "#044317",
+                        "surface-bright": "#ffffff",
+                        "on-tertiary-fixed-variant": "#044317",
+                        "on-surface": "#161616",
+                        "on-primary-container": "#161616",
+                        "on-secondary": "#ffffff",
+                        "error": "#da1e28",
+                        "inverse-on-surface": "#f4f4f4",
+                        "secondary-fixed": "#e0e0e0",
+                        "primary-container": "#d0e2ff",
+                        "surface-dim": "#e0e0e0",
+                        "surface-container-high": "#e0e0e0",
+                        "on-secondary-container": "#525252",
+                        "primary-fixed-dim": "#78a9ff",
+                        "primary": "#0f62fe",
+                        "surface-container-low": "#f4f4f4",
+                        "tertiary-fixed": "#a7f0ba"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "body": ["IBM Plex Sans"],
+                        "label": ["IBM Plex Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans', sans-serif; background-color: #ffffff; color: #161616; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .carbon-input-focus:focus { outline: 2px solid #0f62fe; outline-offset: -2px; }
+        .carbon-btn-primary { background-color: #0f62fe; color: white; transition: background-color 75ms ease-in-out; }
+        .carbon-btn-primary:hover { background-color: #0353e9; }
+        .carbon-btn-ghost { color: #0f62fe; transition: background-color 75ms ease-in-out; }
+        .carbon-btn-ghost:hover { background-color: #f4f4f4; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-20 md:pb-0">
+<!-- TopAppBar -->
+<nav class="flex justify-between items-center w-full px-4 h-12 bg-white border-b border-[#e0e0e0] sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<span class="text-lg font-semibold tracking-tight text-[#161616]">Promptier</span>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-[#525252] text-sm font-['IBM_Plex_Sans'] hover:bg-[#f4f4f4] px-2 py-1 transition-colors duration-75" href="#">Gallery</a>
+<a class="text-[#525252] text-sm font-['IBM_Plex_Sans'] hover:bg-[#f4f4f4] px-2 py-1 transition-colors duration-75" href="#">Leaderboard</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#525252] p-1 hover:bg-[#f4f4f4]">search</button>
+<button class="bg-[#0f62fe] text-white px-4 py-1.5 text-sm font-medium flex items-center gap-2 hover:bg-[#0353e9] transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Add
+            </button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="max-w-5xl mx-auto px-4 py-8 md:py-12">
+<header class="mb-10">
+<h1 class="text-3xl md:text-4xl font-light text-on-background mb-2">Upload your creation</h1>
+<p class="text-on-surface-variant text-sm max-w-xl">Share your AI-generated art with the community. Ensure your prompts are accurate to help others learn.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Media Upload -->
+<div class="lg:col-span-7">
+<div class="bg-surface-container p-6 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant min-h-[400px] text-center group hover:border-primary transition-colors cursor-pointer">
+<div class="bg-white p-4 mb-4 shadow-sm">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h3 class="text-lg font-medium mb-1">Drag and drop image</h3>
+<p class="text-on-surface-variant text-sm mb-6">Supports PNG, JPG, WEBP (Max 10MB)</p>
+<button class="carbon-btn-primary px-8 py-3 text-sm font-medium">Select file</button>
+</div>
+<div class="mt-6 p-4 bg-surface-container-low border-l-4 border-primary">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<div>
+<p class="text-sm font-semibold">Community Guidelines</p>
+<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                                Please ensure you have the rights to upload this image. Offensive or copyright-infringing content will be removed immediately.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Form Metadata -->
+<form class="lg:col-span-5 space-y-6">
+<!-- Prompt Textarea -->
+<div>
+<label class="block text-xs font-medium text-on-surface-variant mb-2 uppercase tracking-wider">Prompt Text</label>
+<textarea class="w-full bg-surface-container border-none border-b border-outline p-4 text-sm font-['IBM_Plex_Sans'] carbon-input-focus min-h-[120px] resize-none" placeholder="Paste the exact prompt used to generate this image..."></textarea>
+</div>
+<!-- AI Model Dropdown -->
+<div>
+<label class="block text-xs font-medium text-on-surface-variant mb-2 uppercase tracking-wider">AI Model Used</label>
+<div class="relative">
+<select class="w-full bg-surface-container border-none border-b border-outline p-3 pr-10 text-sm font-['IBM_Plex_Sans'] carbon-input-focus appearance-none cursor-pointer">
+<option>Midjourney v6</option>
+<option>DALL-E 3</option>
+<option>Stable Diffusion XL</option>
+<option>Adobe Firefly</option>
+<option>Leonardo AI</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Categories / Tags -->
+<div>
+<label class="block text-xs font-medium text-on-surface-variant mb-2 uppercase tracking-wider">Category</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-primary text-white text-xs font-medium flex items-center gap-1" type="button">
+                            Photorealistic <span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface text-xs font-medium hover:bg-secondary-container transition-colors" type="button">Architecture</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface text-xs font-medium hover:bg-secondary-container transition-colors" type="button">Cyberpunk</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface text-xs font-medium hover:bg-secondary-container transition-colors" type="button">Portrait</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface text-xs font-medium hover:bg-secondary-container transition-colors" type="button">+ Add tag</button>
+</div>
+</div>
+<!-- Competition Checkbox -->
+<div class="pt-4 border-t border-outline-variant">
+<label class="flex items-start gap-3 cursor-pointer group">
+<div class="relative flex items-center mt-1">
+<input class="peer h-4 w-4 border-2 border-on-background rounded-none checked:bg-primary checked:border-primary transition-all appearance-none" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-[12px] text-white opacity-0 peer-checked:opacity-100 left-0.5" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<span class="text-sm font-medium text-on-surface block">Submit for Monthly Competition</span>
+<span class="text-xs text-on-surface-variant">Your entry will be voted on by the community for the chance to win Pro tokens.</span>
+</div>
+</label>
+</div>
+<!-- Submit Actions -->
+<div class="flex gap-4 pt-6">
+<button class="flex-1 carbon-btn-primary py-3 text-sm font-semibold" type="submit">Publish Generation</button>
+<button class="px-6 carbon-btn-ghost py-3 text-sm font-semibold border border-outline-variant" type="button">Save Draft</button>
+</div>
+</form>
+</div>
+<!-- Featured Section (Bento Preview) -->
+<section class="mt-20 border-t border-outline-variant pt-12">
+<h2 class="text-xl font-light mb-8">Related Masterpieces</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="aspect-square bg-surface-container overflow-hidden group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="abstract digital 3D render with flowing silk textures in deep blue and violet hues, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgKuUzSL-FyHydlX_ctyXERtwkjTr8Omn_GVeOXbzdnOZdrO6NNsUPIvV56S9wmAcc1ovRUXTCJi2RpyI-Z7SOZlwwlnvPHkd_UZAGmygNKWq-GKLmxxHnrMAwd5B0R69ttaEkrjQ9F2pG_nWDoE5CjkZFZGenH_zfmvcr2IALwRksN-XixDYUWrK0tMfMd_2uJcLGmtf6xqSrnpyLCTDIv1Kdndws_H_Qp8uCHj0B2JF25f3Jlw3TaMxUq6mD8FtDignAsFaIz1s"/>
+</div>
+<div class="aspect-square bg-surface-container overflow-hidden group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="cyberpunk city street at night with neon lights reflected in puddles and rain atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9rK2Yi7tVfFgfwXtUk-fbpY0h13ZuxcSgXEBWyZ4g3YBfLRmwSNgtKgQmeayhLotiiIW107FFBnLa24fITVyB8FhzK1SHAyjLSvr8qJy5oBM-MUr7UyxR-Y9Ibj-cszPTdr0Rf_9WuVfYXQ2CXFzHYMHQ5C5KA_-ANpEaxsQq_Uc6DpCb1gt_k_ZXplYVxg1PsbXtjLVBt8L43AwyIvbDiY_kY7pkKAVpV3o8LALLY0tY1AKbNrnAPn_6IScKzOcz53AslhkZmFY"/>
+</div>
+<div class="aspect-square bg-surface-container overflow-hidden group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="minimalist architectural shot of brutalist concrete building against clear blue sky with sharp shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL3IzeKzH2bhnqwoVFCZAUawka6cSid5baOO__-NsLctkrj2NAUW-EspQtWUmUk1qDvcalooaqR8Z4BO2621nkw-OGQ1JtkpmKhMQLpvUvo6aJ7LRQJC5vYdZkOJo3oInD8q3gwBCExNfqiJwQwdnVHqaP0eRGZNbX1I5oBIMofwswWvvXmexl11P5pozn4CmYlIWbNtVoa8i1yt_UVsWMkYEfU-Ui4eO8mdsLIE4OxRsXgN7JL5pdWei8Kn08tlKNL6rA2OQZD_c"/>
+</div>
+<div class="aspect-square bg-surface-container overflow-hidden group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="surreal digital art of a floating garden in a glass sphere with glowing butterflies and soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf6b_rQAsdGvz8xOs2U7ZoDt6F00gB6p_7_8_-cx6LBPEYo6rrGuU09kubgTE23csRoNAptcgdm76Mg7pWY1GpXo3j4BXHWN4RQpxwR5LmAdt7NHFUrbROcIQSnkq66cYDE0jL-nvz7apl825Z3HnvWkptf6lgzyVyvjCFrYDcMbAoZtS0k2SxwDjYKMzhMk9B9fOBWlXXjyG_F3xLeAAzHvlDrwZ1YetfKf3obnKHsWvvK1UoJJWxF615mW3DJC_IRoOa3pt_G_U"/>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-14 px-2 bg-white border-t border-[#e0e0e0]">
+<a class="flex flex-col items-center justify-center text-[#525252] pt-1.5 hover:bg-[#f4f4f4] flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-['IBM_Plex_Sans'] text-[12px] font-medium">Gallery</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#525252] pt-1.5 hover:bg-[#f4f4f4] flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-['IBM_Plex_Sans'] text-[12px] font-medium">Leaderboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#525252] pt-1.5 hover:bg-[#f4f4f4] flex-1" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['IBM_Plex_Sans'] text-[12px] font-medium">Profile</span>
+</a>
+</nav>
+</body></html>

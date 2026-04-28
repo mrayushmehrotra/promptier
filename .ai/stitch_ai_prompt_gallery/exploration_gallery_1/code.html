@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prompt Studio - Exploration Gallery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#525252",
+                        "surface-container-high": "#e0e0e0",
+                        "error": "#da1e28",
+                        "secondary-fixed-dim": "#c6c6c6",
+                        "outline-variant": "#e0e0e0",
+                        "tertiary-fixed": "#a7f0ba",
+                        "surface": "#ffffff",
+                        "on-tertiary-fixed-variant": "#044317",
+                        "on-secondary-fixed": "#161616",
+                        "on-surface-variant": "#525252",
+                        "secondary-container": "#e0e0e0",
+                        "on-secondary-fixed-variant": "#525252",
+                        "error-container": "#fff1f1",
+                        "surface-container-low": "#f4f4f4",
+                        "surface-container": "#f4f4f4",
+                        "secondary": "#6f6f6f",
+                        "surface-variant": "#f4f4f4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#0f62fe",
+                        "outline": "#8d8d8d",
+                        "on-tertiary-fixed": "#022d0d",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#78a9ff",
+                        "inverse-on-surface": "#f4f4f4",
+                        "tertiary-fixed-dim": "#42be65",
+                        "tertiary-container": "#a7f0ba",
+                        "on-error-container": "#750e13",
+                        "tertiary": "#198038",
+                        "surface-tint": "#0f62fe",
+                        "primary-fixed": "#d0e2ff",
+                        "on-tertiary-container": "#044317",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#001d6c",
+                        "background": "#ffffff",
+                        "surface-dim": "#e0e0e0",
+                        "primary-container": "#d0e2ff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#0043ce",
+                        "on-background": "#161616",
+                        "inverse-primary": "#78a9ff",
+                        "surface-container-highest": "#c6c6c6",
+                        "on-surface": "#161616",
+                        "surface-bright": "#ffffff",
+                        "secondary-fixed": "#e0e0e0",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#161616",
+                        "inverse-surface": "#393939"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["IBM Plex Sans"],
+                        "display": ["IBM Plex Sans"],
+                        "body": ["IBM Plex Sans"],
+                        "label": ["IBM Plex Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1rem;
+        }
+        @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
+        @media (min-width: 1280px) { .masonry-grid { column-count: 3; } }
+        @media (min-width: 1536px) { .masonry-grid { column-count: 4; } }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar Implementation from JSON -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center w-full px-4 h-12 font-['IBM_Plex_Sans'] text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-xl font-semibold text-gray-900 dark:text-white">Prompt Studio</span>
+<nav class="hidden md:flex items-center gap-6">
+<!-- Gallery is Active -->
+<a class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1 Active: opacity-80 duration-150" href="#">Gallery</a>
+<a class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors" href="#">Editor</a>
+<a class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors" href="#">Collections</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 flex-1 justify-end">
+<div class="relative max-w-xs w-full hidden lg:block">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+<input class="w-full bg-surface-container-low border-b border-outline h-8 pl-9 pr-4 text-xs focus:ring-0 focus:border-primary transition-all" placeholder="Search prompts..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-400" data-icon="notifications">notifications</span>
+</button>
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-400" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 ring-1 ring-gray-200">
+<img alt="User profile" data-alt="professional headshot of a creative director in a minimalist studio setting with soft neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6ZCyHBRxXmeSRcSdpAuOGmQehltUOqcF0He4WKyrI26z7VvelTqVP4OsPMv2I6iQfKW0khant04vOnNb-fAh1BWGwbSCdSI4XvYSNEoZ0AxIk-aF_wvgJy7et2kmFEr_0fql5AFd45ROgqKB2vJG24cRkYGpqgWIa3k0V2IeW2KuUZxqCEU5BIwQQBddkQ4rwhRM1M4XYRqaxkar6uJ6SxbgySSCwR9Cc8k2Q757r2rxmBn60QDnABtvKDKBlEoW4aI6pnd0aIrc"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex pt-12 min-h-screen">
+<!-- SideNavBar Implementation from JSON -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-12 bottom-0 w-64 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 py-4 font-['IBM_Plex_Sans'] text-xs font-medium">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-bold text-gray-900 dark:text-white leading-tight">AI Prompt Engine</h2>
+<p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Carbon v2.4</p>
+<button class="mt-6 w-full bg-primary text-white py-3 px-4 flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-colors text-sm font-semibold">
+<span class="material-symbols-outlined text-lg">add</span>
+                    Create New
+                </button>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Explore is Active -->
+<a class="flex items-center gap-4 px-6 py-3 bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 border-l-4 border-blue-600 Active: scale-[0.99] duration-75" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span>Explore</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span>Studio</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="bookmarks">bookmarks</span>
+<span>Saved</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-3 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>History</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-4 border-t border-gray-200 dark:border-gray-800">
+<p class="text-gray-400 mb-4 px-2 uppercase tracking-tighter text-[10px]">Categories</p>
+<div class="space-y-1">
+<button class="w-full text-left px-2 py-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-on-surface-variant flex items-center justify-between">
+                        Nature <span class="text-[10px] bg-gray-200 dark:bg-gray-700 px-1.5 rounded">124</span>
+</button>
+<button class="w-full text-left px-2 py-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-on-surface-variant flex items-center justify-between">
+                        Sci-Fi <span class="text-[10px] bg-gray-200 dark:bg-gray-700 px-1.5 rounded">86</span>
+</button>
+<button class="w-full text-left px-2 py-1.5 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-on-surface-variant flex items-center justify-between">
+                        Portraits <span class="text-[10px] bg-gray-200 dark:bg-gray-700 px-1.5 rounded">210</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 p-6 bg-white overflow-y-auto">
+<header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-3xl font-bold text-on-background tracking-tight">Exploration Gallery</h1>
+<p class="text-secondary mt-1 max-w-xl">Browse the most effective prompts from the community and analyze their construction architecture.</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant hover:bg-surface-container-low text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                        Sort by Latest
+                    </button>
+</div>
+</header>
+<!-- Masonry Grid -->
+<div class="masonry-grid">
+<!-- Card 1 -->
+<div class="masonry-item group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden hover:shadow-lg transition-shadow border border-transparent hover:border-outline-variant">
+<img class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="abstract digital art with fluid translucent shapes in deep blue and turquoise hues, soft glassmorphism effect, clean minimalist composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnnjPYqgHZaiLzJRY7S6jYALPSQRlBTgkk60Gogr7pNsHf-pnUwXjI2jkjI1FA0pXT13xRStHQwLYbXimTF9pdFfygtNTWWrt1t4kYvRPPnYz1RDKIUVn6Av7-OHiU9wlTfS-ll411atr_8ZJ90RvX13_OQdJ1ctl5_lz51iKwzLf4N4WtYTLx332aOWELa_R6ByMFnVHUHjNLXw-UzIHuILS7sCWQxOOkx9BtzaEHrllly05py3SA5pRKDZghelLQyXyTLM5xYZo"/>
+<div class="p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Midjourney v6</span>
+<span class="text-[10px] text-on-secondary-container">2m ago</span>
+</div>
+<p class="text-sm font-medium text-on-background line-clamp-2 mb-4 leading-relaxed italic">
+                                "Hyper-realistic architectural glass structure in a misty valley, refraction of light through geometric prisms, 8k..."
+                            </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-white text-[8px] flex items-center justify-center font-bold">JD</div>
+<div class="w-6 h-6 rounded-full bg-blue-100 border border-white text-[8px] flex items-center justify-center font-bold text-blue-600">AS</div>
+</div>
+<button class="flex items-center gap-1 text-primary hover:underline text-xs font-semibold">
+<span class="material-symbols-outlined text-base">content_copy</span>
+                                    Copy Prompt
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="masonry-item group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden hover:shadow-lg transition-shadow border border-transparent hover:border-outline-variant">
+<img class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="cinematic view of earth from orbit at night with vibrant city lights glowing through atmosphere, high contrast, space exploration aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1MmQp-sHsHWvUFg3vklDguhcKZogwGWMYcN5zvjsDWKqIotsNmkvE4vG7LYPiu7w-SeMWBeLtPauc36ZHfZ8NAmyz1xSB3CETaYOacmjP1qg0sszkm60dYW2EQZQJiQD4uz9Cr4fOdr89Q6LdFmUTACf4MEyUQq5TfbEDMpHwEwdmsTwrjay15lndc0xHKdHImoBcdEClWPXzNZRauwUC6TNpoEd6fuOJ71Q7Wc2yj_mOH8I_zYUqMMlx31fqyNJvB0tU17zORv0"/>
+<div class="p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider">DALL-E 3</span>
+<span class="text-[10px] text-on-secondary-container">1h ago</span>
+</div>
+<p class="text-sm font-medium text-on-background line-clamp-2 mb-4 leading-relaxed italic">
+                                "A cinematic wide shot of the earth's horizon from the thermosphere, glowing blue atmosphere, star clusters, intricate..."
+                            </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+<span class="text-[10px] text-secondary">Nature / Space</span>
+<button class="flex items-center gap-1 text-primary hover:underline text-xs font-semibold">
+<span class="material-symbols-outlined text-base">content_copy</span>
+                                    Copy Prompt
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="masonry-item group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden hover:shadow-lg transition-shadow border border-transparent hover:border-outline-variant">
+<img class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="striking studio portrait of a woman with dramatic lighting, high contrast shadows, sharp focus on eyes, editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT35TUeCzHEanIIMDOxADWPsQvGCGwG9qxBQT5QelQlpjq-APKPw_54MKu3KyB-F9q33JSUbFDBqHItBglgiIzQGYzkN2mpZPevJ3udRas9uAgq0U4uACI1Jcd8F3YhFqHlWh9vtJGSb5BQQji22IZFDmJqVlM0bWM_LIdbK9yxzE_QuhlY1Yz3GEsjPUckvELaalxr-Q11kkuepBwdwZYXBD7F_-xc0vWG27bc3XU3brkmH8yU1sDWgvknQw_bKhAttqWCdRvfnU"/>
+<div class="p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Midjourney v6</span>
+<span class="text-[10px] text-on-secondary-container">3h ago</span>
+</div>
+<p class="text-sm font-medium text-on-background line-clamp-2 mb-4 leading-relaxed italic">
+                                "Editorial fashion photography, high contrast chiaroscuro lighting, freckles, sharp hazel eyes, bokeh background, Hasselblad..."
+                            </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+<span class="text-[10px] text-secondary">Portraits</span>
+<button class="flex items-center gap-1 text-primary hover:underline text-xs font-semibold">
+<span class="material-symbols-outlined text-base">content_copy</span>
+                                    Copy Prompt
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="masonry-item group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden hover:shadow-lg transition-shadow border border-transparent hover:border-outline-variant">
+<img class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="minimalist macro shot of a white blooming flower with soft morning light, shallow depth of field, pure serene mood" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7rgAvLVNF4To2W3NlYl0XPo1UAtei5roLO3HkN94qFG6cCjP5-bbnzth6fww25kfDocIwSHtOm2mUAlOICS2U9F-5qW-7BoiUDYfOl1Iyb8EowgE-MuYh6CXrVjfNAqCUwM6t5ui9tX-sLX7bghLdiiev7jc6GEiVFOJHlHd3JUUV7XlwPW1JEB6cuh6MDNl5xmGUykODblXiA65pJivsGPJVjZqh811orf-OjFmGQnbkZOuu1OLtYBl_LcBTLvMMJ4hIxuj7H2U"/>
+<div class="p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Stable Diff XL</span>
+<span class="text-[10px] text-on-secondary-container">5h ago</span>
+</div>
+<p class="text-sm font-medium text-on-background line-clamp-2 mb-4 leading-relaxed italic">
+                                "Macro photography of a rare arctic flower blooming through ice, crystalline textures, soft morning sun, 35mm lens..."
+                            </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+<span class="text-[10px] text-secondary">Nature</span>
+<button class="flex items-center gap-1 text-primary hover:underline text-xs font-semibold">
+<span class="material-symbols-outlined text-base">content_copy</span>
+                                    Copy Prompt
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="masonry-item group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden hover:shadow-lg transition-shadow border border-transparent hover:border-outline-variant">
+<img class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="retro-futuristic desk setup with vintage computer hardware and neon ambient lighting, 80s synthwave aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEfJ3M1QvgEjv0EzshS0p-zsy2WeaAhHrCEf49hzeFx6VMXTprK-ZE-Mno6p0mM5XIDuj9Is2-lIbggc_qOINq0Yd1iEgKW1Phc_1-Rp386XkJVvW_3o-psVHaNcon-oeIvTd_AiV3GM6aHq3FTlOCItpdO2_EdN_wEwYWtx-0qJPl9bscufllnG904tcJjaAnCWKyCzJQnqFNZD3V9KaEOpwhP1PrC3o0uZiTtUe_FvEVMJeD363TMk5Pw3x8iI9sSR-QDJMonRw"/>
+<div class="p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed-variant text-[10px] font-bold uppercase tracking-wider">Midjourney v6</span>
+<span class="text-[10px] text-on-secondary-container">8h ago</span>
+</div>
+<p class="text-sm font-medium text-on-background line-clamp-2 mb-4 leading-relaxed italic">
+                                "1980s retro-futurist workstation, neon magenta and teal lighting, grainy film stock, CRT monitors, cassette tapes..."
+                            </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+<span class="text-[10px] text-secondary">Sci-Fi</span>
+<button class="flex items-center gap-1 text-primary hover:underline text-xs font-semibold">
+<span class="material-symbols-outlined text-base">content_copy</span>
+                                    Copy Prompt
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="masonry-item group cursor-pointer">
+<div class="bg-surface-container-low overflow-hidden hover:shadow-lg transition-shadow border border-transparent hover:border-outline-variant">
+<img class="w-full h-auto object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="atmospheric digital landscape of a cyberpunk city in the rain, glowing neon signs reflected in puddles, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoeCvECbugqOnGTjQ8sOwBTJzSqTHfDsRx1AlHcFUXYLRxFQnOetnUlH_nsDA4Ken6GROFf_PJ14etQn3NCyzRoJMKmdySruEWscvXDAWCLavvbLSpsrRnFkOMXBszVYdxTmllLUxGLVo95M2mYkoODEvkdZ5zexEWsoMUjJnXQAFJnxyDWjQc22vAa6FSDKOxVz0Q8NqvPsIipp7HGO6vIEF4QStPQh8EXOf21CClOwmno4JIYoANSgmYhhHM2UCBXoHC-xC4MG0"/>
+<div class="p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider">DALL-E 3</span>
+<span class="text-[10px] text-on-secondary-container">12h ago</span>
+</div>
+<p class="text-sm font-medium text-on-background line-clamp-2 mb-4 leading-relaxed italic">
+                                "Hyper-detailed cyberpunk street scene, rain-slicked asphalt, neon reflections, hovering vehicles, cinematic depth..."
+                            </p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant">
+<span class="text-[10px] text-secondary">Sci-Fi</span>
+<button class="flex items-center gap-1 text-primary hover:underline text-xs font-semibold">
+<span class="material-symbols-outlined text-base">content_copy</span>
+                                    Copy Prompt
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile Bottom NavBar (from JSON Rule) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 flex items-center justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-blue-600">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="text-[10px] font-medium">Explore</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined">psychology</span>
+<span class="text-[10px] font-medium">Studio</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined">bookmarks</span>
+<span class="text-[10px] font-medium">Saved</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-gray-500">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</nav>
+</main>
+</div>
+</body></html>
