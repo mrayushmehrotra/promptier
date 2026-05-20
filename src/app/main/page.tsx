@@ -1,113 +1,166 @@
-'use client'
-import Navbar from "@/components/navbar"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import Image from "next/image"
-import { useState } from "react"
+import Link from "next/link"
+import AppNav from "@/components/AppNav"
 
-const placeholderImages = [
-    { id: 1, src: "https://images.unsplash.com/photo-1707343843437-caacff5cfa74?q=80&w=600&auto=format&fit=crop", height: "h-[300px]", title: "Cyberpunk Tokyo", author: "Neo" },
-    { id: 2, src: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?q=80&w=600&auto=format&fit=crop", height: "h-[450px]", title: "Lost in the Dunes", author: "Nomad" },
-    { id: 3, src: "https://images.unsplash.com/photo-1707343848511-925515be431f?q=80&w=600&auto=format&fit=crop", height: "h-[250px]", title: "Glitch Reality", author: "Cyborg" },
-    { id: 4, src: "https://images.unsplash.com/photo-1682687220063-4742bd7fd538?q=80&w=600&auto=format&fit=crop", height: "h-[500px]", title: "Neon Forest", author: "Druid" },
-    { id: 5, src: "https://images.unsplash.com/photo-1707343843344-01974ef49610?q=80&w=600&auto=format&fit=crop", height: "h-[320px]", title: "Digital Bloom", author: "Botanist" },
-    { id: 6, src: "https://images.unsplash.com/photo-1707343843598-397505ef4ed6?q=80&w=600&auto=format&fit=crop", height: "h-[400px]", title: "The Void", author: "Vanta" },
-    { id: 7, src: "https://images.unsplash.com/photo-1682695796954-bad0d0f59ff1?q=80&w=600&auto=format&fit=crop", height: "h-[380px]", title: "Sunset Waves", author: "Sol" },
-    { id: 8, src: "https://images.unsplash.com/photo-1707343843913-0ec3531b7e4a?q=80&w=600&auto=format&fit=crop", height: "h-[420px]", title: "Mirror World", author: "Echo" },
-    { id: 9, src: "https://images.unsplash.com/photo-1707343845451-24fb2f275997?q=80&w=600&auto=format&fit=crop", height: "h-[280px]", title: "Abstract Flow", author: "Fluid" },
-    { id: 10, src: "https://images.unsplash.com/photo-1682686580186-b55d2a91053c?q=80&w=600&auto=format&fit=crop", height: "h-[460px]", title: "Golden Hour", author: "Aura" },
-    { id: 11, src: "https://images.unsplash.com/photo-1707343843861-124c3c869fb0?q=80&w=600&auto=format&fit=crop", height: "h-[310px]", title: "The Core", author: "Magma" },
-    { id: 12, src: "https://images.unsplash.com/photo-1707343844152-6d33a0bb32c3?q=80&w=600&auto=format&fit=crop", height: "h-[350px]", title: "Arctic Night", author: "Frost" },
-]
-
-export default function Main() {
-    return (
-        <main className="min-h-screen bg-white">
-            <Navbar />
-
-            <div className="p-4 md:p-8">
-                {/* Search / Filter header */}
-                <div className="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="relative w-full md:w-md group">
-                        <input
-                            type="text"
-                            placeholder="Search your vault..."
-                            className="w-full px-6 py-3 rounded-full bg-gray-100 border-none focus:ring-2 focus:ring-black transition-all outline-none font-medium"
-                        />
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity">
-                            ⌘ K
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-6 overflow-x-auto pb-2 no-scrollbar w-full md:w-auto">
-                        {['All', 'Favorites', 'Recent', 'Collections'].map((tab) => (
-                            <button key={tab} className="font-bold uppercase text-xs tracking-widest hover:text-gray-500 transition-colors whitespace-nowrap">
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Pinterest Grid */}
-                <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 max-w-7xl mx-auto">
-                    {placeholderImages.map((img, i) => (
-                        <motion.div
-                            key={img.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: i * 0.05 }}
-                            className="relative mb-4 break-inside-avoid group cursor-zoom-in"
-                        >
-                            <div className={`relative overflow-hidden rounded-2xl bg-gray-100 w-full ${img.height}`}>
-                                <Image
-                                    src={img.src}
-                                    alt={img.title}
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
-                                />
-                                {/* Overlay */}
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
-                                    <div className="flex justify-end">
-                                        <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full font-bold text-sm transition-colors">
-                                            Save
-                                        </button>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex gap-2">
-                                            <button className="bg-white/90 hover:bg-white p-2 rounded-full transition-colors">
-                                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-                                            </button>
-                                            <button className="bg-white/90 hover:bg-white p-2 rounded-full transition-colors text-xs font-black">
-                                                Copy
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Card Footer */}
-                            <div className="mt-2 px-1">
-                                <h3 className="text-sm font-bold truncate">{img.title}</h3>
-                                <div className="flex items-center gap-1.5 mt-1">
-                                    <div className="w-5 h-5 rounded-full bg-gray-200 flex-shrink-0" />
-                                    <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider transition-colors hover:text-black hover:underline cursor-pointer">
-                                        {img.author}
-                                    </span>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-
-            <style jsx>{`
-                .no-scrollbar::-webkit-scrollbar {
-                    display: none;
-                }
-                .no-scrollbar {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            `}</style>
-        </main>
-    );
+const MODEL_BADGE: Record<string, string> = {
+  Midjourney: "bg-blue-950 text-blue-300 border border-blue-500/30",
+  "DALL-E": "bg-green-950 text-green-300 border border-green-500/30",
+  "Stable Diffusion": "bg-orange-950 text-orange-300 border border-orange-500/30",
+  Flux: "bg-pink-950 text-pink-300 border border-pink-500/30",
+  Firefly: "bg-lime-950 text-lime-300 border border-lime-500/30",
 }
+
+function PostCard({ post, index }: { post: any; index: number }) {
+  const [liked, setLiked] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigator.clipboard.writeText(post.fullPrompt)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      className="group break-inside-avoid mb-5"
+    >
+      <Link href={`/posts/${post._id}`}>
+        <div className="overflow-hidden rounded-2xl bg-white/3 border border-white/8 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)]">
+          <div className="relative overflow-hidden">
+            <img
+              src={post.image}
+              alt={post.title}
+              className="w-full object-cover grayscale-[10%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute top-3 left-3">
+              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${MODEL_BADGE[post.model] ?? ""}`}>
+                {post.model}
+              </span>
+            </div>
+            <button
+              onClick={handleCopy}
+              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-200 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-cyan-500 text-white text-xs font-bold"
+            >
+              {copied ? "✓" : "⎘"}
+            </button>
+          </div>
+          <div className="p-4">
+            <h3 className="font-bold text-sm text-white mb-1 group-hover:text-cyan-400 transition-colors line-clamp-1">
+              {post.title}
+            </h3>
+            <p className="text-gray-500 text-[11px] font-mono line-clamp-2 leading-relaxed mb-3">&quot;{post.prompt}&quot;</p>
+            <div className="flex flex-wrap gap-1 mb-3">
+              {post.tags.slice(0, 3).map((tag: string) => (
+                <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 border border-white/8 text-gray-400">#{tag}</span>
+              ))}
+            </div>
+            <div className="flex items-center justify-between pt-3 border-t border-white/5">
+              <div className="flex items-center gap-2">
+                <img src={post.author.avatar} alt={post.author.username} className="w-5 h-5 rounded-full object-cover" />
+                <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">{post.author.username}</span>
+              </div>
+              <div className="flex items-center gap-3 text-[10px] text-gray-500">
+                <button
+                  onClick={(e) => { e.preventDefault(); setLiked(!liked) }}
+                  className={`flex items-center gap-1 transition-colors ${liked ? "text-pink-400" : "hover:text-pink-400"}`}
+                >
+                  {liked ? "♥" : "♡"} {post.likes + (liked ? 1 : 0)}
+                </button>
+                <span>👁 {(post.views / 1000).toFixed(1)}k</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
+export default function FeedPage() {
+  const [activeTab, setActiveTab] = useState("All")
+  const [posts, setPosts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const tabs = ["All", "Favorites", "Recent"]
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch("/api/posts")
+        const data = await res.json()
+        if (Array.isArray(data)) {
+          setPosts(data)
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchPosts()
+  }, [])
+
+  const filtered = activeTab === "Recent"
+    ? [...posts].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    : activeTab === "Favorites"
+    ? [...posts].sort((a, b) => b.likes - a.likes)
+    : posts
+
+  return (
+    <div className="min-h-screen bg-[#030308] text-white">
+      <AppNav />
+      <div className="pt-14">
+        <div className="sticky top-14 z-30 bg-[#030308]/95 backdrop-blur-xl border-b border-white/8">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-1">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${
+                    activeTab === tab ? "text-cyan-400 bg-cyan-500/10" : "text-gray-500 hover:text-gray-300"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            <Link
+              href="/create"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-50 text-black text-xs font-bold hover:bg-white transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+            >
+              + New Post
+            </Link>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <div key={i} className="h-64 rounded-2xl bg-white/5 animate-pulse" />
+              ))}
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">No posts yet. Be the first to share one!</p>
+              <Link href="/create" className="text-cyan-400 hover:underline mt-2 inline-block">Create Post →</Link>
+            </div>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5">
+              {filtered.map((post, i) => (
+                <PostCard key={post._id} post={post} index={i} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+

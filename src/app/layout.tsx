@@ -1,4 +1,3 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -13,15 +12,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en" className="h-full antialiased">
-        <head>
-          <link rel="icon" href="/favicon.png" />
-        </head>
-        <body className="min-h-full flex flex-col">
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" className="h-full antialiased">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
+      <body className="min-h-full flex flex-col">
+        {children}
+      </body>
+    </html>
   );
 }
+

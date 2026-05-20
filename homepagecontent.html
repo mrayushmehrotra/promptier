@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptier — Copy. Generate. Create.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #06b6d4;
+            --accent-glow: rgba(6, 182, 212, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030308;
+            color: #ffffff;
+            overflow-x: hidden;
+            cursor: none; 
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #06b6d4;
+            box-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(6, 182, 212, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        body:has(a:hover, button:hover) .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background: rgba(6, 182, 212, 0.1);
+            border-color: transparent;
+        }
+
+        /* Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Magnetic Button */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+
+        .magnetic-btn::before {
+            content: '';
+            position: absolute;
+            top: var(--y, 50%);
+            left: var(--x, 50%);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(6,182,212,0.4) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .magnetic-btn:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        
+        .marquee-content {
+            display: inline-flex;
+            animation: marquee 25s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Card 3D Tilt */
+        .prompt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.1s;
+        }
+
+        /* Toast */
+        #toast {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Scroll Reveal Initial States */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- WebGL/Canvas Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-500 py-6 opacity-0 -translate-y-full">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="font-display text-2xl font-bold tracking-tighter flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center group-hover:rotate-12 transition-transform">
+                    <span class="text-cyan-400 text-lg">P</span>
+                </div>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">PROMPTIER</span>
+            </a>
+            
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#explore" class="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300">Explore</a>
+                <a href="#features" class="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300">Features</a>
+                <a href="#pro" class="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300">Pro</a>
+                <button class="magnetic-btn px-6 py-2.5 rounded-full border border-cyan-500/30 text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all duration-300 text-sm font-medium">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <!-- FIX: overflow-visible allows absolutely positioned decorative elements to render correctly below the text without being clipped -->
+    <section class="relative min-h-screen flex items-center justify-center px-6 overflow-clip">
+        
+        <!-- Background Gradient to blend into body color -->
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#030308] to-transparent z-20 pointer-events-none"></div>
+        
+        <div class="relative max-w-6xl mx-auto text-center z-30 pt-20">
+            <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-xs font-medium text-cyan-300 tracking-wider uppercase opacity-0" id="hero-badge">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                AI Prompt Library
+            </div>
+
+            <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.9] mb-8" id="hero-title">
+                <span class="block overflow-hidden">
+                    <span class="block hero-char">COPY.</span>
+                </span>
+                <span class="block overflow-hidden">
+                    <span class="block hero-char text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">GENERATE.</span>
+                </span>
+                <span class="block overflow-hidden">
+                    <span class="block hero-char">CREATE.</span>
+                </span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-gray-400 text-lg md:text-xl leading-relaxed mb-12 opacity-0" id="hero-subtitle">
+                Stop guessing. Browse thousands of battle-tested prompts, copy them in one click, and generate stunning AI art that matches your vision perfectly.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0" id="hero-cta">
+                <a href="#explore" class="magnetic-btn group relative px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-full overflow-hidden transition-all duration-300">
+                    <span class="relative z-10 flex items-center gap-2">
+                        Explore Prompts
+                        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </span>
+                </a>
+                <a href="#how-it-works" class="magnetic-btn px-8 py-4 rounded-full border border-white/10 hover:border-white/30 text-white transition-all duration-300 hover:bg-white/5">
+                    How it Works
+                </a>
+            </div>
+        </div>
+
+        <!-- FIX: Moved decorative floating cards OUTSIDE the max-w-6xl container so they position relative to the section, not the content box -->
+        <div class="absolute top-1/3 left-6 lg:left-12 -translate-y-1/2 hidden lg:block opacity-0 pointer-events-none" id="float-card-1">
+            <div class="glass-panel p-4 rounded-xl rotate-[-6deg] w-64 shadow-2xl">
+                <div class="h-32 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-lg mb-3 flex items-center justify-center">
+                    <span class="text-4xl">✨</span>
+                </div>
+                <div class="h-2 bg-white/10 rounded w-3/4 mb-2"></div>
+                <div class="h-2 bg-white/10 rounded w-1/2"></div>
+            </div>
+        </div>
+
+        <div class="absolute top-1/4 right-6 lg:right-12 hidden lg:block opacity-0 pointer-events-none" id="float-card-2">
+            <div class="glass-panel p-4 rounded-xl rotate-[6deg] w-56 shadow-2xl">
+                <div class="h-24 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-lg mb-3 flex items-center justify-center">
+                    <span class="text-3xl">🔥</span>
+                </div>
+                <div class="h-2 bg-white/10 rounded w-full mb-2"></div>
+                <div class="h-2 bg-white/10 rounded w-2/3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Section -->
+    <div class="py-10 border-y border-white/5 bg-[#030308] relative z-20 overflow-hidden">
+        <div class="marquee-container">
+            <div class="marquee-content text-4xl md:text-6xl font-display font-bold text-white/5 uppercase tracking-widest select-none">
+                <span class="mx-8">Prompts</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Images</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Copy</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Generate</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Create</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Prompts</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Images</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Copy</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Generate</span><span class="text-cyan-500/20">•</span>
+                <span class="mx-8">Create</span><span class="text-cyan-500/20">•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery / Explore Section -->
+    <section id="explore" class="relative z-20 py-24 px-6 bg-[#030308]">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 reveal-up">
+                <div>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold mb-4">Trending Prompts</h2>
+                    <p class="text-gray-400 max-w-xl">Hand-picked, high-quality prompts that produce consistent, stunning results across Midjourney, DALL-E, and Stable Diffusion.</p>
+                </div>
+                <div class="flex gap-2 mt-6 md:mt-0">
+                    <button class="px-4 py-2 rounded-full bg-cyan-500/20 text-cyan-400 text-sm border border-cyan-500/30">All</button>
+                    <button class="px-4 py-2 rounded-full bg-white/5 text-gray-400 text-sm border border-white/10 hover:bg-white/10 transition-colors">Midjourney</button>
+                    <button class="px-4 py-2 rounded-full bg-white/5 text-gray-400 text-sm border border-white/10 hover:bg-white/10 transition-colors">DALL-E</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+                <!-- Cards injected via JS -->
+            </div>
+
+            <div class="mt-16 text-center reveal-up">
+                <button class="magnetic-btn px-8 py-4 rounded-full border border-white/10 hover:border-cyan-500/50 hover:text-cyan-400 transition-all duration-300 text-lg">
+                    Load More Prompts
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features / How it works -->
+    <section id="features" class="relative z-20 py-24 px-6 bg-black/40 border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-2xl reveal-up group hover:border-cyan-500/30 transition-colors duration-500">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 text-2xl group-hover:scale-110 transition-transform">📋</div>
+                    <h3 class="font-display text-2xl font-bold mb-3">Copy Instantly</h3>
+                    <p class="text-gray-400 leading-relaxed">Every prompt is just one click away. Our smart copy button captures the exact syntax, including parameters and aspect ratios.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl reveal-up group hover:border-purple-500/30 transition-colors duration-500" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6 text-2xl group-hover:scale-110 transition-transform">🎨</div>
+                    <h3 class="font-display text-2xl font-bold mb-3">Visual Preview</h3>
+                    <p class="text-gray-400 leading-relaxed">See exactly what a prompt generates before you even open your AI tool. We display the exact output for transparency.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl reveal-up group hover:border-pink-500/30 transition-colors duration-500" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-pink-400 mb-6 text-2xl group-hover:scale-110 transition-transform">⚡</div>
+                    <h3 class="font-display text-2xl font-bold mb-3">Optimized</h3>
+                    <p class="text-gray-400 leading-relaxed">Prompts are curated and optimized by the community. Upvote the best ones and filter by style, model, or aspect ratio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative z-20 py-32 px-6 overflow-hidden bg-[#030308]">
+        <div class="absolute inset-0 bg-gradient-to-r from-cyan-900/20 via-purple-900/20 to-cyan-900/20 blur-3xl pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center relative">
+            <h2 class="font-display text-5xl md:text-7xl font-bold mb-6 text-white reveal-up">Ready to create?</h2>
+            <p class="text-xl text-gray-300 mb-10 reveal-up">Join 10,000+ creators sharing and discovering AI prompts daily.</p>
+            <div class="reveal-up">
+                <button class="magnetic-btn px-10 py-5 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform text-lg shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                    Start Browsing Free
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-20 border-t border-white/10 bg-black/80 backdrop-blur-xl pt-16 pb-8 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2 font-display font-bold text-xl">
+                <div class="w-6 h-6 rounded bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-sm">P</div>
+                PROMPTIER
+            </div>
+            <div class="flex gap-8 text-sm text-gray-500">
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms</a>
+                <a href="#" class="hover:text-white transition-colors">Twitter</a>
+                <a href="#" class="hover:text-white transition-colors">GitHub</a>
+            </div>
+            <div class="text-sm text-gray-600">
+                Promptier. Built for creators.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] px-6 py-3 bg-cyan-500 text-black font-bold rounded-full shadow-[0_0_30px_rgba(6,182,212,0.4)] flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        Prompt Copied to Clipboard!
+    </div>
+
+    <script>
+        // Register GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Data: Prompts ---
+        const prompts = [
+            {
+                title: "Neon Cyberpunk Samurai",
+                image: "https://images.unsplash.com/photo-1550684848-f38266c43784?w=800&q=80",
+                prompt: "A lone samurai standing in the rain in a neon-lit Tokyo street, cyberpunk aesthetic, vibrant pink and blue lights reflecting on wet pavement, cinematic composition, 8k resolution, unreal engine 5 render --ar 16:9 --v 6",
+                tags: ["Midjourney", "Character"]
+            },
+            {
+                title: "Ethereal Dreamscape",
+                image: "https://images.unsplash.com/photo-1579546929518-9b42468b22be?w=800&q=80",
+                prompt: "Floating islands in a pastel sky, waterfalls defying gravity, soft volumetric lighting, dreamlike atmosphere, fantasy art, highly detailed, matte painting, concept art by James Jean --ar 3:2 --stylize 250",
+                tags: ["Midjourney", "Landscape"]
+            },
+            {
+                title: "Retro Synthwave Car",
+                image: "https://images.unsplash.com/photo-1535385793534-6a103e4e1354?w=800&q=80",
+                prompt: "Red sports car driving down a palm tree highway at sunset, retro 1980s synthwave style, orange and purple gradient sky, grid floor, chrome details, 3D render, octane render, 4k --ar 16:9",
+                tags: ["DALL-E", "Vehicle"]
+            },
+            {
+                title: "Gothic Architecture Interior",
+                image: "https://images.unsplash.com/photo-1548625149-f3ef973b5e47?w=800&q=80",
+                prompt: "Massive gothic cathedral interior, light beams shining through stained glass windows, dust particles floating in air, moody dark atmosphere, photorealistic, wide angle lens, 24mm, f/1.8, dramatic shadows",
+                tags: ["Stable Diffusion", "Interior"]
+            },
+            {
+                title: "Cute Robot Companion",
+                image: "https://images.unsplash.com/photo-1535378437327-b7149b379c7a?w=800&q=80",
+                prompt: "Adorable rusty robot sitting on a wooden desk next to a window, bokeh background, warm sunlight, pixar style 3D character, big expressive eyes, cozy cottagecore setting, detailed textures --ar 1:1",
+                tags: ["Midjourney", "3D"]
+            },
+            {
+                title: "Abstract Fluid Art",
+                image: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=800&q=80",
+                prompt: "Abstract fluid art with liquid gold and deep teal colors mixing together, marble texture, macro photography style, luxurious, high contrast, sharp details, glossy finish, seamless pattern --ar 9:16",
+                tags: ["DALL-E", "Abstract"]
+            }
+        ];
+
+        // --- Render Gallery ---
+        const galleryGrid = document.getElementById('gallery-grid');
+        
+        prompts.forEach((item) => {
+            const card = document.createElement('div');
+            card.className = 'group relative';
+            card.innerHTML = `
+                <div class="prompt-card glass-panel rounded-2xl overflow-hidden cursor-pointer h-full" data-prompt="${encodeURIComponent(item.prompt)}">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                        <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 hover:bg-cyan-500 hover:border-cyan-400 transition-colors copy-btn">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 relative">
+                        <div class="flex items-center gap-2 mb-3">
+                            ${item.tags.map(tag => `<span class="text-xs px-2 py-1 rounded-md bg-white/5 border border-white/10 text-gray-400">${tag}</span>`).join('')}
+                        </div>
+                        <h3 class="font-display text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">${item.title}</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2 font-mono leading-relaxed group-hover:text-gray-300 transition-colors">
+                            "${item.prompt.substring(0, 80)}..."
+                        </p>
+                        <div class="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+                            <div class="flex items-center gap-1 text-xs text-gray-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                ${Math.floor(Math.random() * 5000) + 500}
+                            </div>
+                            <button class="text-xs font-bold text-cyan-400 hover:text-cyan
